@@ -55,6 +55,13 @@
 ;
 
 
+variable player
+X player !
+: switch_player
+  player @ X = if O else X then
+  player !
+;
+
 variable board 9 cells allot
 \ TODO: Loop
 EMPTY board 0 cells + !
@@ -68,9 +75,11 @@ EMPTY board 7 cells + !
 EMPTY board 8 cells + !
 
 board render
-board X turn
+board player @ turn
+switch_player
 board render
-board O turn
+board player @ turn
+switch_player
 board render
 
 bye
