@@ -28,7 +28,7 @@
 	repeat
 ;
 
-: player_move { board_address }
+: turn { board_address player }
 	begin
 		board_position
 		dup
@@ -45,6 +45,13 @@
 
 		false = while
 	repeat
+	player
+	swap
+	board_address
+	swap
+	cells
+	+
+	!
 ;
 
 
@@ -57,10 +64,13 @@ EMPTY board 3 cells + !
 EMPTY board 4 cells + !
 EMPTY board 5 cells + !
 EMPTY board 6 cells + !
-X board 7 cells + !
-X board 8 cells + !
+EMPTY board 7 cells + !
+EMPTY board 8 cells + !
 
-X board board player_move cells + !
+board render
+board X turn
+board render
+board O turn
 board render
 
 bye
