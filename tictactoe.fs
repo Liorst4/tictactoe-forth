@@ -54,13 +54,33 @@
 	!
 ;
 
+: winner { board }
+  EMPTY
+;
+
+: game { board_address player_address -- board_address }
+       begin
+	 \ Switch player
+	 player_address @ X = if O else X then
+	 player_address !
+
+	 board_address render
+	 ." Turn: " player_address @ emit cr
+
+	 board_address
+	 player_address @
+	 turn
+
+	 board_address winner
+	 ( TODO: Handle a draw )
+
+	 EMPTY = while
+	 repeat
+;
+
 
 variable player
 X player !
-: switch_player
-  player @ X = if O else X then
-  player !
-;
 
 variable board 9 cells allot
 \ TODO: Loop
@@ -74,12 +94,5 @@ EMPTY board 6 cells + !
 EMPTY board 7 cells + !
 EMPTY board 8 cells + !
 
-board render
-board player @ turn
-switch_player
-board render
-board player @ turn
-switch_player
-board render
-
+board player game
 bye
