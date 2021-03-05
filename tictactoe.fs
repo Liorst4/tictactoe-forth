@@ -1,6 +1,7 @@
 : EMPTY [char] _ ;
 : X [char] X ;
 : O [char] O ;
+: DRAW [char] D ;
 
 : render { board_address }
 	9 0 do i
@@ -72,10 +73,21 @@
 	 turn
 
 	 board_address winner
-	 ( TODO: Handle a draw )
+	 dup
 
-	 EMPTY = while
-	 repeat
+	 EMPTY = if
+	   true
+	 else
+	   board_address render
+	   ." Game is over" cr
+	   dup DRAW = if
+	     ." Draw" cr
+	   else
+	     ." The winner is " emit cr
+	   then
+	   false
+	 then
+	 while repeat
 ;
 
 
