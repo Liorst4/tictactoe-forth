@@ -5,8 +5,16 @@
 
 : render { board_address }
 	9 0 do i
-		board_address i cells + @ emit
-		i 3 mod 2 = if cr then
+	       board_address i cells + @
+
+	       dup EMPTY = if
+		  i [char] 0 + emit
+		  drop
+	       else
+		 emit
+	       then
+
+	       i 3 mod 2 = if cr then
 	drop loop
 ;
 
