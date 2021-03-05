@@ -109,7 +109,7 @@
 	EMPTY
 ;
 
-: game { board_address player_address -- board_address }
+: game { board_address player_address }
        begin
 	 \ Switch player
 	 player_address @ X = if O else X then
