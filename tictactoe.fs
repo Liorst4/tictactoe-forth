@@ -110,6 +110,10 @@
 ;
 
 : game { board_address player_address }
+       X player_address !
+       9 0 do EMPTY board_address i cells + !
+	   loop
+
        begin
 	 \ Switch player
 	 player_address @ X = if O else X then
@@ -144,19 +148,6 @@
 
 
 variable player
-X player !
-
 variable board 9 cells allot
-\ TODO: Loop
-EMPTY board 0 cells + !
-EMPTY board 1 cells + !
-EMPTY board 2 cells + !
-EMPTY board 3 cells + !
-EMPTY board 4 cells + !
-EMPTY board 5 cells + !
-EMPTY board 6 cells + !
-EMPTY board 7 cells + !
-EMPTY board 8 cells + !
-
 board player game
 bye
