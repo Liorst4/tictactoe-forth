@@ -71,13 +71,13 @@
 
 : line_winner { board_address i0 i1 i2 }
 	      board_address i0 cells + @
+	      dup
 	      board_address i1 cells + @
 	      board_address i2 cells + @
-	      three_way_equals
-	      if
-		      board_address i0 cells + @
-	      else
-		      EMPTY
+	      three_way_equals invert if
+		drop
+		EMPTY
+		exit
 	      then
 ;
 
