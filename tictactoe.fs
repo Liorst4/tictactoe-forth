@@ -82,15 +82,12 @@
 ;
 
 : full { board_address }
-       9 0 do i
-	      board_address i cells + @
+       9 0 do board_address i cells + @
 	      EMPTY = if
-		drop
 		false
 		unloop
 		exit
 	      then
-	      drop
 	   loop
        true
 ;
