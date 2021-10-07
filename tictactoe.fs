@@ -4,6 +4,7 @@
 : DRAW [char] D ;
 
 : render { board_address }
+	page
 	9 0 do i
 	       board_address i cells + @
 
