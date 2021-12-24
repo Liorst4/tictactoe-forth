@@ -6,7 +6,8 @@
 variable board 9 cells allot
 variable player
 
-: render
+\ Draw the current state of the board on screen
+: render ( -- )
 	page
 	9 0 do i
 	       board i cells + @
@@ -22,7 +23,8 @@ variable player
 	drop loop
 ;
 
-: board_position ( -- number between 0 to 8 )
+\ Read a board position from a user
+: board_position ( -- u )
 	." Enter a number between 0 to 8:" cr
 	begin
 		key [char] 0 -
@@ -41,7 +43,8 @@ variable player
 	repeat
 ;
 
-: turn
+\ Advance the state of the game by a single turn
+: turn ( -- )
 	begin
 		board_position
 		dup
@@ -67,13 +70,17 @@ variable player
 	!
 ;
 
-: three_way_equals { a b c }
+\ a b and c are equal?
+: three_way_equals { a b c -- f }
 		   a b =
 		   b c =
 		   and
 ;
 
-: line_winner { i0 i1 i2 }
+\ Check if the value of the cells in the given indices is the same.
+\ Return EMPTY if they aren't the same.
+\ Return X or O if they are the same.
+: line_winner { i0 i1 i2 -- c }
 	      board i0 cells + @
 	      dup
 	      board i1 cells + @
@@ -85,7 +92,8 @@ variable player
 	      then
 ;
 
-: full
+\ Are there any empty cells in board?
+: full ( -- f )
        9 0 do board i cells + @
 	      EMPTY = if
 		false
@@ -96,7 +104,9 @@ variable player
        true
 ;
 
-: winner
+\ EMPTY if the game is not over yet, DRAW if no one won,
+\ X or O if someone won
+: winner ( -- c )
 	 \ TODO: loop
 	0 1 2 line_winner dup EMPTY = if drop else exit then
 	3 4 5 line_winner dup EMPTY = if drop else exit then
@@ -113,7 +123,8 @@ variable player
 \ Switch the value of player between X and O
 : switch_player ( -- ) player @ X = if O else X then player ! ;
 
-: game
+\ Play a game of tictactoe
+: game ( -- )
        X player !
        9 0 do EMPTY board i cells + !
 	   loop
