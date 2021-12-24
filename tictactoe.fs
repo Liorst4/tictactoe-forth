@@ -110,15 +110,16 @@ variable player
 	EMPTY
 ;
 
+\ Switch the value of player between X and O
+: switch_player ( -- ) player @ X = if O else X then player ! ;
+
 : game
        X player !
        9 0 do EMPTY board i cells + !
 	   loop
 
        begin
-	 \ Switch player
-	 player @ X = if O else X then
-	 player !
+	 switch_player
 
 	 render
 	 ." Turn: " player @ emit cr
