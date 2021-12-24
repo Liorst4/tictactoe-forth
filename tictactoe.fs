@@ -23,11 +23,14 @@ variable player
 	drop loop
 ;
 
+\ ASCII character to number
+: atou ( c -- u ) [char] 0 - ;
+
 \ Read a board position from a user
 : board_position ( -- u )
 	." Enter a number between 0 to 8:" cr
 	begin
-		key [char] 0 -
+		key atou
 		dup 0 >=
 		swap
 		dup 9 <
