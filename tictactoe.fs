@@ -26,24 +26,21 @@ variable player
 \ ASCII character to number
 : atou ( c -- u ) [char] 0 - ;
 
+\ min <= number_to_test <= max
+: in_range { number_to_test min max -- f }
+	   number_to_test min >=
+	   number_to_test max <=
+	   and
+;
+
 \ Read a board position from a user
 : board_position ( -- u )
-	." Enter a number between 0 to 8:" cr
-	begin
-		key atou
-		dup 0 >=
-		swap
-		dup 9 <
-		rot
-		and
-
-		dup false = if
-			swap
-			drop
-		then
-
-		false = while
-	repeat
+  ." Enter a number between 0 to 8:" cr
+  begin
+    key atou
+    dup 0 8 in_range 0 = while
+    drop
+  repeat
 ;
 
 \ Advance the state of the game by a single turn
