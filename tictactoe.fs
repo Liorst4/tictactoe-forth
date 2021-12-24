@@ -3,10 +3,13 @@
 : O [char] O ;
 : DRAW [char] D ;
 
-: render { board_address }
+variable board 9 cells allot
+variable player
+
+: render
 	page
 	9 0 do i
-	       board_address i cells + @
+	       board i cells + @
 
 	       dup EMPTY = if
 		  i [char] 0 + emit
@@ -38,11 +41,11 @@
 	repeat
 ;
 
-: turn { board_address player }
+: turn
 	begin
 		board_position
 		dup
-		board_address
+		board
 		swap
 		cells + @
 		EMPTY =
@@ -55,9 +58,9 @@
 
 		false = while
 	repeat
-	player
+	player @
 	swap
-	board_address
+	board
 	swap
 	cells
 	+
@@ -70,11 +73,11 @@
 		   and
 ;
 
-: line_winner { board_address i0 i1 i2 }
-	      board_address i0 cells + @
+: line_winner { i0 i1 i2 }
+	      board i0 cells + @
 	      dup
-	      board_address i1 cells + @
-	      board_address i2 cells + @
+	      board i1 cells + @
+	      board i2 cells + @
 	      three_way_equals invert if
 		drop
 		EMPTY
@@ -82,8 +85,8 @@
 	      then
 ;
 
-: full { board_address }
-       9 0 do board_address i cells + @
+: full
+       9 0 do board i cells + @
 	      EMPTY = if
 		false
 		unloop
@@ -93,45 +96,43 @@
        true
 ;
 
-: winner { board_address }
+: winner
 	 \ TODO: loop
-	board_address 0 1 2 line_winner dup EMPTY = if drop else exit then
-	board_address 3 4 5 line_winner dup EMPTY = if drop else exit then
-	board_address 6 7 8 line_winner dup EMPTY = if drop else exit then
-	board_address 0 3 6 line_winner dup EMPTY = if drop else exit then
-	board_address 1 4 7 line_winner dup EMPTY = if drop else exit then
-	board_address 2 5 8 line_winner dup EMPTY = if drop else exit then
-	board_address 0 4 8 line_winner dup EMPTY = if drop else exit then
-	board_address 2 4 6 line_winner dup EMPTY = if drop else exit then
-	board_address full if DRAW exit	then
+	0 1 2 line_winner dup EMPTY = if drop else exit then
+	3 4 5 line_winner dup EMPTY = if drop else exit then
+	6 7 8 line_winner dup EMPTY = if drop else exit then
+	0 3 6 line_winner dup EMPTY = if drop else exit then
+	1 4 7 line_winner dup EMPTY = if drop else exit then
+	2 5 8 line_winner dup EMPTY = if drop else exit then
+	0 4 8 line_winner dup EMPTY = if drop else exit then
+	2 4 6 line_winner dup EMPTY = if drop else exit then
+	full if DRAW exit then
 	EMPTY
 ;
 
-: game { board_address player_address }
-       X player_address !
-       9 0 do EMPTY board_address i cells + !
+: game
+       X player !
+       9 0 do EMPTY board i cells + !
 	   loop
 
        begin
 	 \ Switch player
-	 player_address @ X = if O else X then
-	 player_address !
+	 player @ X = if O else X then
+	 player !
 
-	 board_address render
-	 ." Turn: " player_address @ emit cr
+	 render
+	 ." Turn: " player @ emit cr
 
-	 board_address
-	 player_address @
 	 turn
 
-	 board_address winner
+	 winner
 	 dup
 
 	 EMPTY = if
 	   drop
 	   true
 	 else
-	   board_address render
+	   render
 	   ." Game is over" cr
 	   dup DRAW = if
 	     drop
@@ -145,7 +146,5 @@
 ;
 
 
-variable player
-variable board 9 cells allot
-board player game
+game
 bye
