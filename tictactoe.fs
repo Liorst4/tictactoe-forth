@@ -64,7 +64,8 @@ variable player
 : turn ( -- )
   switch_player
   player @
-  ." Enter a number between 0 to 8:" cr
+  dup
+  ." Current player: " emit cr ." Enter a number between 0 to 8:" cr
   board empty_board_position cells + !
 ;
 
@@ -126,8 +127,6 @@ variable player
 
        begin
 	 render
-	 ." Turn: " player @ emit cr
-
 	 turn
 
 	 winner
