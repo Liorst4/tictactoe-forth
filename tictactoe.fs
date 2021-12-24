@@ -121,34 +121,26 @@ variable player
 
 \ Play a game of tictactoe
 : game ( -- )
-       X player !
-       9 0 do EMPTY board i cells + !
-	   loop
-
-       begin
-	 render
-	 turn
-
-	 winner
-	 dup
-
-	 EMPTY = if
-	   drop
-	   true
-	 else
-	   render
-	   ." Game is over" cr
-	   dup DRAW = if
-	     drop
-	     ." Draw" cr
-	   else
-	     ." The winner is " emit cr
-	   then
-	   false
-	 then
-	 while repeat
+  X player !
+  9 0 do EMPTY board i cells + !
+      loop
+  begin
+    render
+    turn
+    winner
+    dup
+    EMPTY = while
+    drop
+  repeat
+  render
+  ." Game is over" cr
+  dup DRAW = if
+    drop
+    ." Draw" cr
+  else
+    ." The winner is " emit cr
+  then
 ;
-
 
 game
 bye
