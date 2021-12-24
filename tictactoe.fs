@@ -35,7 +35,6 @@ variable player
 
 \ Read a board position from a user
 : board_position ( -- u )
-  ." Enter a number between 0 to 8:" cr
   begin
     key atou
     dup 0 8 in_range 0 = while
@@ -43,31 +42,26 @@ variable player
   repeat
 ;
 
+\ Test if a given index is empty in board
+: empty_cell? { index -- f }
+	      board index cells + @
+	      EMPTY =
+;
+
+\ Read a board position of an empty cell from a user
+: empty_board_position ( -- u )
+  begin
+    board_position
+    dup empty_cell? 0 = while
+    drop
+  repeat
+;
+
 \ Advance the state of the game by a single turn
 : turn ( -- )
-	begin
-		board_position
-		dup
-		board
-		swap
-		cells + @
-		EMPTY =
-
-		dup false = if
-			swap
-			drop
-			." Already taken " cr
-		then
-
-		false = while
-	repeat
-	player @
-	swap
-	board
-	swap
-	cells
-	+
-	!
+  player @
+  ." Enter a number between 0 to 8:" cr
+  board empty_board_position cells + !
 ;
 
 \ a b and c are equal?
