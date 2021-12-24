@@ -57,8 +57,12 @@ variable player
   repeat
 ;
 
+\ Switch the value of player between X and O
+: switch_player ( -- ) player @ X = if O else X then player ! ;
+
 \ Advance the state of the game by a single turn
 : turn ( -- )
+  switch_player
   player @
   ." Enter a number between 0 to 8:" cr
   board empty_board_position cells + !
@@ -114,9 +118,6 @@ variable player
 	EMPTY
 ;
 
-\ Switch the value of player between X and O
-: switch_player ( -- ) player @ X = if O else X then player ! ;
-
 \ Play a game of tictactoe
 : game ( -- )
        X player !
@@ -124,8 +125,6 @@ variable player
 	   loop
 
        begin
-	 switch_player
-
 	 render
 	 ." Turn: " player @ emit cr
 
