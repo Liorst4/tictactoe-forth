@@ -136,11 +136,25 @@ here win_lines - 3 / constant amount_of_win_lines
   full if DRAW else EMPTY then
 ;
 
-\ Play a game of tictactoe
-: game ( -- )
-  X player !
+\ Clears the game state
+: reset_game ( -- )
   9 0 do EMPTY board i cells + !
       loop
+  X player !
+;
+
+\ Render game over screen
+: game_over_screen { game_result -- }
+		   render
+		   ." Game is over" cr
+		   game_result DRAW = if ." Draw "
+				      else ." The winner is " game_result emit
+				      then cr
+;
+
+\ Play a game of tictactoe
+: game ( -- )
+  reset_game
   begin
     render
     turn
@@ -149,14 +163,7 @@ here win_lines - 3 / constant amount_of_win_lines
     EMPTY = while
     drop
   repeat
-  render
-  ." Game is over" cr
-  dup DRAW = if
-    drop
-    ." Draw" cr
-  else
-    ." The winner is " emit cr
-  then
+  game_over_screen
 ;
 
 game
