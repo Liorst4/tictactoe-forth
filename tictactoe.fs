@@ -103,20 +103,37 @@ variable player
        true
 ;
 
+
+create win_lines 0 c, 1 c, 2 c,
+	         3 c, 4 c, 5 c,
+	         6 c, 7 c, 8 c,
+	         0 c, 3 c, 6 c,
+	         1 c, 4 c, 7 c,
+	         2 c, 5 c, 8 c,
+	         0 c, 4 c, 8 c,
+	         2 c, 4 c, 6 c,
+here win_lines - 3 / constant amount_of_win_lines
+
+: win_line { index -- u u u }
+	   3 0 do index 3 * i + win_lines + c@
+	   loop
+;
+
 \ EMPTY if the game is not over yet, DRAW if no one won,
 \ X or O if someone won
 : winner ( -- c )
-	 \ TODO: loop
-	0 1 2 line_winner dup EMPTY = if drop else exit then
-	3 4 5 line_winner dup EMPTY = if drop else exit then
-	6 7 8 line_winner dup EMPTY = if drop else exit then
-	0 3 6 line_winner dup EMPTY = if drop else exit then
-	1 4 7 line_winner dup EMPTY = if drop else exit then
-	2 5 8 line_winner dup EMPTY = if drop else exit then
-	0 4 8 line_winner dup EMPTY = if drop else exit then
-	2 4 6 line_winner dup EMPTY = if drop else exit then
-	full if DRAW exit then
-	EMPTY
+  amount_of_win_lines 0 do
+    i win_line line_winner
+    dup
+    EMPTY = if
+      drop
+    else
+      unloop
+      exit
+    then
+  loop
+
+  full if DRAW else EMPTY then
 ;
 
 \ Play a game of tictactoe
