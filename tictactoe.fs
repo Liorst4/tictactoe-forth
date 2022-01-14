@@ -1,7 +1,7 @@
-: EMPTY [char] _ ;
-: X [char] X ;
-: O [char] O ;
-: DRAW [char] D ;
+char X constant X
+char O constant O
+char D constant DRAW
+char _ constant EMPTY
 
 variable board 9 cells allot
 variable player
