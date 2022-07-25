@@ -43,8 +43,8 @@ variable player
 ;
 
 \ Test if a given index is empty in board
-: empty_cell? { index -- f }
-	      board index cells + @
+: empty_cell? ( index -- f )
+	      board swap cells + @
 	      EMPTY =
 ;
 
