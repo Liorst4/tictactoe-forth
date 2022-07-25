@@ -70,10 +70,12 @@ variable player
 ;
 
 \ a b and c are equal?
-: three_way_equals { a b c -- f }
-		   a b =
-		   b c =
-		   and
+: three_way_equals ( a b c -- f )
+  over swap
+  =
+  rot rot
+  =
+  and
 ;
 
 \ Check if the value of the cells in the given indices is the same.
