@@ -144,12 +144,12 @@ here win_lines - 3 / constant amount_of_win_lines
 ;
 
 \ Render game over screen
-: game_over_screen { game_result -- }
+: game_over_screen ( game_result -- )
 		   render
 		   ." Game is over" cr
-		   game_result DRAW = if ." Draw "
-				      else ." The winner is " game_result emit
-				      then cr
+		   dup DRAW = if ." Draw " drop
+			      else ." The winner is " emit
+			      then cr
 ;
 
 \ Play a game of tictactoe
