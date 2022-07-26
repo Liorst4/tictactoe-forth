@@ -81,19 +81,23 @@ variable player
   and
 ;
 
+: board@ ( n -- c )
+  board swap cells + @
+;
+
 \ Check if the value of the cells in the given indices is the same.
 \ Return EMPTY if they aren't the same.
 \ Return X or O if they are the same.
-: line_winner { i0 i1 i2 -- c }
-	      board i0 cells + @
-	      dup
-	      board i1 cells + @
-	      board i2 cells + @
-	      three_way_equals invert if
-		drop
-		EMPTY
-		exit
-	      then
+: line_winner ( i0 i1 i2 -- c )
+  board@             ( i0 i1 c2 )
+  rot                ( i1 c2 i0 )
+  board@             ( i1 c2 c0 )
+  rot                ( c2 c0 i1 )
+  board@             ( c2 c0 c1 )
+  dup >r             ( c2 c0 c1 )
+  three_way_equals   ( f )
+  r> swap invert     ( c1 !f )
+  if drop EMPTY then ( c1 )
 ;
 
 \ Are there any empty cells in board?
