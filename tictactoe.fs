@@ -116,9 +116,11 @@ create win_lines 0 c, 1 c, 2 c,
 	         2 c, 4 c, 6 c,
 here win_lines - 3 / constant amount_of_win_lines
 
-: win_line { index -- u u u }
-	   3 0 do index 3 * i + win_lines + c@
-	   loop
+: win_line ( index -- u u u )
+  3 0 do
+    dup 3 * i + win_lines + c@ swap
+  loop
+  drop
 ;
 
 \ EMPTY if the game is not over yet, DRAW if no one won,
