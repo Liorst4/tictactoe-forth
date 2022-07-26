@@ -27,10 +27,13 @@ variable player
 : atou ( c -- u ) [char] 0 - ;
 
 \ min <= number_to_test <= max
-: in_range { number_to_test min max -- f }
-	   number_to_test min >=
-	   number_to_test max <=
-	   and
+: in_range ( number_to_test min max -- f )
+  1 +            ( number_to_test min max+1 )
+  swap 1 - swap  ( number_to_test min-1 max+1 )
+  rot rot over   ( max+1 number_to_test min-1 number_to_test )
+  swap >         ( max+1 number_to_test f )
+  rot rot swap < ( f f )
+  and            ( f )
 ;
 
 \ Read a board position from a user
